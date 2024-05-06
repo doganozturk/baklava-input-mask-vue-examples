@@ -3,10 +3,9 @@ import { IMask } from 'vue-imask';
 
 export function useIMaskWithObserver(maskOptions) {
   const elRef = ref(null);
+  let maskInstance = null;
 
   onMounted(() => {
-    let maskInstance = null;
-
     const observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         if (mutation.type === 'childList') {
@@ -33,6 +32,8 @@ export function useIMaskWithObserver(maskOptions) {
 
           if (maskInstance) {
             maskInstance.destroy();
+
+            maskInstance = null;
           }
         });
       }
